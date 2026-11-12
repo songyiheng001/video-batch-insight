@@ -1,0 +1,40 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+
+# 本机运行产物
+_运行日志.txt
+启动日志.txt
+_备份_*/
+视频解析结果/
+视频解析/
+_素材/
+*.log
+
+# 媒体素材（别把视频传上来）
+*.mp4
+*.mkv
+*.mov
+*.avi
+*.flv
+*.webm
+*.m4v
+*.wmv
+*.mp3
+*.m4a
+*.wav
+*.flac
+*.ogg
+*.jpg
+*.jpeg
+*.png
+!docs/preview.png
+
+# 系统 / 编辑器
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/

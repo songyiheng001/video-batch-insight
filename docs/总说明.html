@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>视频批量解析工具 · 总说明</title>
+<style>
+  body { font-family: "Microsoft YaHei", "Segoe UI", sans-serif; background:#f5f6f8; color:#24292f; margin:0; padding:40px 20px; }
+  .wrap { max-width: 780px; margin: 0 auto; background:#fff; border:1px solid #e4e7eb; border-radius:10px; padding:36px 44px; }
+  h1 { font-size:22px; margin:0 0 4px; }
+  .sub { color:#6b7280; font-size:13px; margin-bottom:24px; }
+  h2 { font-size:16px; margin:28px 0 10px; padding-left:10px; border-left:4px solid #2563eb; }
+  p, li { font-size:14px; line-height:1.75; }
+  table { border-collapse:collapse; width:100%; font-size:13px; margin:8px 0; }
+  th, td { border:1px solid #e4e7eb; padding:8px 10px; text-align:left; vertical-align:top; }
+  th { background:#f3f4f6; }
+  code { background:#f3f4f6; border:1px solid #e4e7eb; border-radius:4px; padding:1px 6px; font-size:12.5px; font-family:Consolas,monospace; }
+  .path { font-family:Consolas,monospace; font-size:12.5px; background:#f8f9fa; border:1px solid #e4e7eb; border-radius:4px; padding:2px 6px; }
+  .tip { background:#eff6ff; border:1px solid #bfdbfe; border-radius:8px; padding:12px 16px; font-size:13px; margin:12px 0; }
+  .warn { background:#fffbeb; border:1px solid #fde68a; border-radius:8px; padding:12px 16px; font-size:13px; margin:12px 0; }
+  .ok { color:#15803d; font-weight:600; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>视频批量解析工具 · 总说明</h1>
+  <div class="sub">最新版（v6 · 2026-10-14 定版）&nbsp;·&nbsp;本文件是 D 盘归档中唯一需要阅读的说明</div>
+
+  <h2>这是什么</h2>
+  <p>把一堆视频<b>系统性整理成知识内容</b>的工具：一条视频的信息有两个来源——<b>音频</b>（他说了什么）和<b>画面</b>（屏幕上写了什么，PPT / 板书 / 图表）。只听音频等于扔掉一半内容，所以本工具双通道并行提取，再融合成结构化笔记。</p>
+
+  <h2>能力一览</h2>
+  <table>
+    <tr><th style="width:130px">环节</th><th>做什么</th></tr>
+    <tr><td>素材来源</td><td>本地文件 / 文件夹、B 站单条链接（支持短链）、UP 主主页批量</td></tr>
+    <tr><td>音频通道</td><td>本地 faster-whisper 转写（GPU 优先，自动回退 CPU），出逐字稿 + SRT 字幕<br>界面「解析内容」里可勾选「音频转文字」；勾上后文字稿全文会附进 <code>_index.md</code> 汇总分析，分析和原文在同一份文件</td></tr>
+    <tr><td>画面通道</td><td>自动抽关键帧拼总览图（3 列 × 12 格），供多模态模型读取屏幕内容</td></tr>
+    <tr><td>融合输出</td><td>逐字稿 + 总览图 → 交给多模态模型 → 结构化笔记（章节 / 时间轴 / 要点 / 金句）</td></tr>
+  </table>
+  <p style="font-size:13px;color:#6b7280">实测速度（RTX 4070）：GPU 转写约 10 倍实时；14 分钟 1080p 视频抽帧约 2 分钟出 4 张总览图。</p>
+
+  <h2>怎么启动</h2>
+  <p>双击桌面上的 <b>视频批量解析.vbs</b>（无黑窗，窗口会自动弹到前台）。界面三块：<b>① 选内容</b>（加文件/文件夹/B站链接）→ <b>② 结果目录</b> → <b>③ 开始 + 运行记录</b>。</p>
+  <p>也可以直接进 <span class="path">D:\视频解析工具\01-现在能用的版本\</span> 双击 <span class="path">启动-视频批量解析.vbs</span>。</p>
+
+  <h2>文件结构（当前）</h2>
+  <table>
+    <tr><th style="width:290px">路径</th><th>内容</th></tr>
+    <tr><td class="path">D:\视频解析工具\01-现在能用的版本\</td><td>完整可运行的最新版（本页其余部分都以它为准）</td></tr>
+    <tr><td class="path">├─ gui\video_gui.py</td><td>图形界面程序</td></tr>
+    <tr><td class="path">├─ scripts\*.py</td><td>核心脚本：batch（总调度）/ asr（转写）/ frames（抽帧）/ bili（B站）/ common（公共）</td></tr>
+    <tr><td class="path">├─ SKILL.md</td><td>完整技术文档（环境、命令、参数档位、故障排除）</td></tr>
+    <tr><td class="path">└─ 启动-视频批量解析.vbs</td><td>目录内直启入口</td></tr>
+  </table>
+  <div class="tip">另有一份技能真身在 <span class="path">C:\Users\songyiheng\.workbuddy\skills\video-batch-insight\</span>，与本目录内容一致（md5 已核对）。日常用 D 盘这份即可；若以后改动，以 C 盘 skill 为准并同步过来。</div>
+
+  <h2>运行环境（已就绪，勿卸载）</h2>
+  <ul>
+    <li>转写环境：<span class="path">C:\Users\songyiheng\.workbuddy\binaries\python\envs\asr\</span>（faster-whisper + ctranslate2 + CUDA 运行库）</li>
+    <li>界面运行时：系统 Python 3.12-32 的 pythonw.exe（启动器自动调用）</li>
+    <li>ffmpeg 9.0.2（已在 PATH）</li>
+    <li>模型缓存：<span class="path">C:\Users\songyiheng\.cache\fw</span>（small 已下；large-v3 首次使用按需下载）</li>
+  </ul>
+
+  <h2>出问题怎么办</h2>
+  <table>
+    <tr><th style="width:220px">现象</th><th>处理</th></tr>
+    <tr><td>双击桌面图标窗口不弹</td><td>进 <span class="path">01-现在能用的版本\</span> 双击 <span class="path">启动-视频批量解析.vbs</span>；仍不行就看启动日志</td></tr>
+    <tr><td>报错找不到 Python / DLL</td><td>按上面「运行环境」核对路径；CUDA 相关报错通常是环境被动过，重装 asr venv 的 nvidia-cublas-cu12 / nvidia-cudnn-cu12</td></tr>
+    <tr><td>想找运行记录</td><td><span class="path">01-现在能用的版本\启动日志.txt</span>（每次启动追加一行）</td></tr>
+  </table>
+
+  <div class="warn">旧版本与历史备份已打包为 <span class="path">D:\视频解析工具_旧版备份_20261018.zip</span>（v1–v6 全部留档 + 旧打包工具）。确认新版无误后可自行删除该 zip。</div>
+
+  <p class="ok" style="margin-top:24px">当前状态：D 盘仅保留此最新版，旧版已全部归档进上述 zip。</p>
+</div>
+</body>
+</html>
